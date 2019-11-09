@@ -3,7 +3,9 @@
 
 from typing import Tuple
 
-from dependency import np, sp, wavutils
+import scipy.signal as sig
+
+from dependency import np, wavutils
 
 
 def sigin(wavname: str) -> Tuple[int, np.ndarray]:
@@ -14,13 +16,13 @@ def sigin(wavname: str) -> Tuple[int, np.ndarray]:
 def sawtooth(fs: int, Ns: int, Ss: int) -> np.ndarray:
     """Returns a Sawtooth wave of Sample rate Ss with Ns number of samples and Sample Frequency Fs"""
     Ss = np.linspace(0, 1, Ss)
-    return sp.signal.sawtooth(2 * np.pi * fs * Ss)[0:Ns]
+    return sig.sawtooth(2 * np.pi * fs * Ss)[0:Ns]
 
 
 def triangle(fs: int, Ns: int, Ss: int) -> np.ndarray:
     """Returns a Triangle wave of Sample rate Ss with Ns number of samples and Sample Frequency Fs"""
     Ss = np.linspace(0, 1, Ss)
-    return sp.signal.sawtooth(2 * np.pi * fs * Ss, 0.5)[0:Ns]
+    return sig.sawtooth(2 * np.pi * fs * Ss, 0.5)[0:Ns]
 
 
 def sin(fs: int, Ns: int, Ss: int) -> np.ndarray:
@@ -35,3 +37,9 @@ def cos(fs: int, Ns: int, Ss: int) -> np.ndarray:
     t = np.arange(Ns)
     omega = 2 * np.pi * fs / Ss
     return np.cos(omega * t)
+
+
+if __name__ == '__main__':
+    from dependency import plt
+    plt.plot(sin(100, 100, 100))
+    plt.show()
