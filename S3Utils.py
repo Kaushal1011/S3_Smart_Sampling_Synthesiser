@@ -16,8 +16,8 @@ def freq_calc(sig: np.ndarray) -> float:
 
 
 def make_octaves() -> np.ndarray:
-    """Creates Octaves with their corresponding frequncy"""
-    C4_octave = [261.63]  # Value of C4
+    """Creates Octaves with their corresponding frequency"""
+    C4_octave = [261.62556530059874]  # Value of C4
     for _ in range(11):
         C4_octave.append(C4_octave[-1] * 2**(1 / 12))
     C4_octave = np.array(C4_octave)
@@ -32,7 +32,24 @@ def get_note(freq: float) -> Tuple[float, str]:
     Returns the Note (and its Natural Frequency)
     corresponding to input frequency
     """
-    pass
+    f = []
+    FREQ = make_octaves()
+    for i in FREQ:
+        f.extend(i)
+
+    notes = ('C', 'C\u266f-D\u266d', 'D', 'D\u266f-E\u266d', 'E', 'F',
+             'F\u266f-G\u266d', 'G', 'G\u266f-A\u266d', 'A', 'A\u266f-B\u266d',
+             'B')
+
+    for i in enumerate(f):
+        if freq < i[1]:
+            note = (f[i[0] - 1], f[i[0]])
+            y = divmod(i[0], 12)
+            mid = (note[0] + note[1]) / 2
+            if freq < mid:
+                return note[0], '{} {}'.format(notes[y[1] - 1], y[0] + 1)
+
+            return note[1], '{} {}'.format(notes[y[1]], y[0] + 1)
 
 
 def create_partial_envelope(sig: np.ndarray) -> Tuple[list, list]:
@@ -59,3 +76,7 @@ def make_natural_env(max_val: np.ndarray, min_val: np.ndarray) -> np.ndarray:
 
 def find_Ns(Freq: float, Ss: int) -> int:
     return Ss // Freq + 1
+
+
+if __name__ == '__main__':
+    print(get_note(438))
