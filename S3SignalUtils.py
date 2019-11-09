@@ -4,6 +4,7 @@
 from typing import Tuple
 
 import scipy.signal as sig
+from scipy.signal import butter, lfilter, freqz
 
 from dependency import np, wavutils
 
@@ -41,19 +42,33 @@ def cos(fs: int, Ns: int, Ss: int) -> np.ndarray:
 # Check tests3 in signals-systems to write these functions
 
 
-def filt_lp(Cfs: int, sig: np.ndarray) -> np.ndarray:
+def filt_lp(sig: np.ndarray, Ss: int,Cfs: int,Cfs1: None,  order=5) -> np.ndarray:
     """return a filtered signal; low pass filter"""
-    pass
+    nyq = 0.5 * Ss
+    normal_cutoff = Cfs / nyq
+    b, a = butter(order, normal_cutoff, btype='low', analog=False)
+    y = lfilter(b, a, sig)
+    return y
 
 
-def filt_hp(Cfs: int, sig: np.ndarray) -> np.ndarray:
+def filt_hp(sig: np.ndarray, Ss: int,Cfs: int,Cfs1: None,  order=5) -> np.ndarray:
     """return a filtered signal; high pass filter"""
-    pass
+    nyq = 0.5 * Ss
+    normal_cutoff = Cfs / nyq
+    b, a = butter(order, normal_cutoff, btype='high', analog=False)
+    y = lfilter(b, a, sig)
+    return y
 
 
-def filt_bp(Cfs0: int, Cfs1: int, sig: np.ndarray) -> np.ndarray:
+def filt_bp( sig: np.ndarray, Ss: int,Cfs0: int, Cfs1: None, order=5) -> np.ndarray:
     """return a filtered signal; band pass filter"""
-    pass
+    nyq = 0.5 * Ss
+    normal_cutoff1 = Cfs0 / nyq
+    normal_cutoff2 = Cfs1 / nyq
+    b, a = butter(order, (normal_cutoff1, normal_cutoff2),
+                  btype='band', analog=False)
+    y = lfilter(b, a, sig)
+    return y
 
 
 if __name__ == '__main__':
