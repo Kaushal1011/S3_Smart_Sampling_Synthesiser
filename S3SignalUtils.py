@@ -1,33 +1,37 @@
-from S3Dependency import np, sp, wavutils
+#!/usr/bin/env python3
 """Utils function related to signals for S3"""
 
+from typing import Tuple
 
-def sigin(wavname: str) -> [int, np.array]:
-    """Functions that reads wave file and return sample rate and singal as np.array"""
+from dependency import np, sp, wavutils
+
+
+def sigin(wavname: str) -> Tuple[int, np.ndarray]:
+    """Functions that reads wave file and return sample rate and signal as np.array"""
     return wavutils.read(wavname, mmap=False)
 
 
-def sawtooth(fs: int, Ns: int, Ss: int) -> np.array:
+def sawtooth(fs: int, Ns: int, Ss: int) -> np.ndarray:
     """Returns a Sawtooth wave of Sample rate Ss with Ns number of samples and Sample Frequency Fs"""
     Ss = np.linspace(0, 1, Ss)
     return sp.signal.sawtooth(2 * np.pi * fs * Ss)[0:Ns]
 
 
-def triangle(fs: int, Ns: int, Ss: int) -> np.array:
+def triangle(fs: int, Ns: int, Ss: int) -> np.ndarray:
     """Returns a Triangle wave of Sample rate Ss with Ns number of samples and Sample Frequency Fs"""
     Ss = np.linspace(0, 1, Ss)
     return sp.signal.sawtooth(2 * np.pi * fs * Ss, 0.5)[0:Ns]
 
 
-def sin(fs: int, Ns: int, Ss: int) -> np.array:
+def sin(fs: int, Ns: int, Ss: int) -> np.ndarray:
     """Returns a Sine wave of Sample rate Ss with Ns number of samples and Sample Frequency Fs"""
     t = np.arange(Ns)
-    omega = 2*np.pi*fs/Ss
-    return np.sin(omega*t)
+    omega = 2 * np.pi * fs / Ss
+    return np.sin(omega * t)
 
 
-def cos(fs: int, Ns: int, Ss: int) -> np.array:
+def cos(fs: int, Ns: int, Ss: int) -> np.ndarray:
     """Returns a Cosine wave of Sample rate Ss with Ns number of samples and Sample Frequency Fs"""
     t = np.arange(Ns)
-    omega = 2*np.pi*fs/Ss
-    return np.cos(omega*t)
+    omega = 2 * np.pi * fs / Ss
+    return np.cos(omega * t)
