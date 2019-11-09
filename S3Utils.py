@@ -17,13 +17,13 @@ def freq_calc(sig: np.ndarray) -> float:
 
 def make_octaves() -> np.ndarray:
     """Creates Octaves with their corresponding frequncy"""
-    A4_octave = [130.81278265]  # Value of C4
+    C4_octave = [261.63]  # Value of C4
     for _ in range(11):
-        A4_octave.append(A4_octave[-1] * 2**(1 / 12))
-    A4_octave = np.array(A4_octave)
+        C4_octave.append(C4_octave[-1] * 2**(1 / 12))
+    C4_octave = np.array(C4_octave)
     return np.array([
-        A4_octave / 8, A4_octave / 4, A4_octave / 2, A4_octave, A4_octave * 2,
-        A4_octave * 4, A4_octave * 8, A4_octave * 16
+        C4_octave / 8, C4_octave / 4, C4_octave / 2, C4_octave, C4_octave * 2,
+        C4_octave * 4, C4_octave * 8, C4_octave * 16
     ])
 
 

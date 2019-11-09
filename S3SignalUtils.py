@@ -38,6 +38,23 @@ def cos(fs: int, Ns: int, Ss: int) -> np.ndarray:
     omega = 2 * np.pi * fs / Ss
     return np.cos(omega * t)
 
+# Check tests3 in signals-systems to write these functions
+
+
+def filt_lp(Cfs: int, sig: np.ndarray) -> np.ndarray:
+    """return a filtered signal; low pass filter"""
+    pass
+
+
+def filt_hp(Cfs: int, sig: np.ndarray) -> np.ndarray:
+    """return a filtered signal; high pass filter"""
+    pass
+
+
+def filt_bp(Cfs0: int, Cfs1: int, sig: np.ndarray) -> np.ndarray:
+    """return a filtered signal; band pass filter"""
+    pass
+
 
 if __name__ == '__main__':
     from dependency import plt
