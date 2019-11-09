@@ -10,7 +10,7 @@ class S3Synth():
     """Main Synth Class that manages backend of Synthesiser"""
     def __init__(self, note_array: np.ndarray, reg: LinearRegression, Ns: int,
                  Ss: int):
-        """sreates base signal dataframe"""
+        """creates base signal dataframe"""
         self.note_sigs = pd.DataFrame()
         for i in range(8):
             for j in range(12):
