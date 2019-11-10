@@ -6,11 +6,11 @@ from S3DataUtils import create_FunctionFrame, predict_fs
 from S3SignalUtils import filt_bp, filt_hp, filt_lp
 
 
-class envelope:
+class Envelope:
     pass
 
 
-class S3Synth():
+class S3Synth:
     """Main Synth Class that manages backend of Synthesiser"""
     Ss = 0
     Ns = 0
@@ -51,7 +51,11 @@ class S3Synth():
         """creates enveloped signal dataframe"""
         pass
 
-    def initialise_frames(self, filter_type: str, env: envelope, Cfs: int, Cfs1=None):
+    def initialise_frames(self,
+                          filter_type: str,
+                          env: envelope,
+                          Cfs: int,
+                          Cfs1=None):
         """intialises all data frames from base frame: run when filter parameters are changed"""
         self.filter_keyframe(filter_type, Cfs, Cfs1)
         self.enveloped_keyframe(env)
