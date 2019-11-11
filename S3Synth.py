@@ -4,10 +4,13 @@
 from dependency import LinearRegression, np, pd
 from S3DataUtils import create_FunctionFrame, predict_fs
 from S3SignalUtils import filt_bp, filt_hp, filt_lp
+from S3Utils import create_env
 
 
 class Envelope:
-    pass
+    def __init__(self,sig:np.ndarray,Ns):
+        self.init_env=create_env(sig,Ns)
+        self.env=self.init_env
 
 
 class S3Synth:
@@ -49,7 +52,10 @@ class S3Synth:
 
     def enveloped_keyframe(self, env: Envelope):
         """creates enveloped signal dataframe"""
-        pass
+        self.env_sigs=pd.DataFrame()
+        for Name, Value in self.filtered_sigs.iteritems():
+            self.env_sigs[Name]=Value*env.env
+
 
     def initialise_frames(self,
                           filter_type: str,
