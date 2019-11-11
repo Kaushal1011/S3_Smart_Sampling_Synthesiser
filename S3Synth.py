@@ -47,19 +47,19 @@ class S3Synth:
                                                                         Cfs1,
                                                                         order)
 
-    def enveloped_keyframe(self, env: envelope):
+    def enveloped_keyframe(self, env: Envelope):
         """creates enveloped signal dataframe"""
         pass
 
     def initialise_frames(self,
                           filter_type: str,
-                          env: envelope,
+                          env: Envelope,
                           Cfs: int,
                           Cfs1=None):
         """intialises all data frames from base frame: run when filter parameters are changed"""
         self.filter_keyframe(filter_type, Cfs, Cfs1)
         self.enveloped_keyframe(env)
 
-    def initilise_env(self, env: envelope):
+    def initilise_env(self, env: Envelope):
         """intialises envelope frame from filtered key frame: run when envelope parameters are changed """
         self.enveloped_keyframe(env)

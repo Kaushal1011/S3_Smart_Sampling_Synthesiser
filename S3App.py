@@ -2,11 +2,11 @@
 
 import keyboard
 from dependency import np, pd, sp
-from S3Synth import S3Synth, envelope
+from S3Synth import S3Synth, Envelope
 
 
-class S3CLI:
-    """Class to manage CLI interface of S3 Synthesiser """
+class S3App:
+    """Class to manage  interface of S3 Synthesiser """
     def __init__(self, s3: S3Synth):
         self.s3 = s3
         self.routed_sig = s3.enveloped_keyframe
@@ -14,5 +14,5 @@ class S3CLI:
 
     def get_envelope(self):
         """creates instance of class envelope from user and returns it"""
-        env = envelope()
+        env = Envelope()
         return env
