@@ -78,7 +78,7 @@ def make_natural_env(env: np.ndarray, Ns: int) -> np.ndarray:
 
 def create_env(sig:np.ndarray,Fs:int,Ss:int,Ns:int)->np.ndarray:
     """return envelope of signal"""
-    return make_natural_env(create_partial_envelope(sig,Fs,Ss),Ss)
+    return make_natural_env(create_partial_envelope(sig,Fs,Ss),Ns)
 
 
 def find_Ns(Freq: float, Ss: int) -> int:
