@@ -8,9 +8,9 @@ from S3Utils import create_env
 
 
 class Envelope:
-    def __init__(self,sig:np.ndarray,Ns):
-        self.init_env=create_env(sig,Ns)
-        self.env=self.init_env
+    def __init__(self, sig: np.ndarray, Fs: int, Ns: int, Ss: int):
+        self.init_env = create_env(sig, Fs, Ss, Ns)
+        self.env = self.init_env
 
 
 class S3Synth:
@@ -52,10 +52,9 @@ class S3Synth:
 
     def enveloped_keyframe(self, env: Envelope):
         """creates enveloped signal dataframe"""
-        self.env_sigs=pd.DataFrame()
+        self.env_sigs = pd.DataFrame()
         for Name, Value in self.filtered_sigs.iteritems():
-            self.env_sigs[Name]=Value*env.env
-
+            self.env_sigs[Name] = Value*env.env
 
     def initialise_frames(self,
                           filter_type: str,

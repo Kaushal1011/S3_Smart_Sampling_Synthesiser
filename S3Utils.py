@@ -52,7 +52,7 @@ def get_note(freq: float) -> Tuple[float, str]:
             return note[1], '{} {}'.format(notes[y[1]], y[0] + 1)
 
 
-def create_partial_envelope(sig: np.ndarray,Fs:int,Ss:int) -> np.ndarray:
+def create_partial_envelope(sig: np.ndarray, Fs: int, Ss: int) -> np.ndarray:
     """
     Creates a partial envelope using min and max of in one cycle.
     """
@@ -76,12 +76,14 @@ def make_natural_env(env: np.ndarray, Ns: int) -> np.ndarray:
         y[i*divs:divs*(i+1)] = np.linspace(env[i], env[i+1], num=divs)
     return y
 
-def create_env(sig:np.ndarray,Fs:int,Ss:int,Ns:int)->np.ndarray:
+
+def create_env(sig: np.ndarray, Fs: int, Ss: int, Ns: int) -> np.ndarray:
     """return envelope of signal"""
-    return make_natural_env(create_partial_envelope(sig,Fs,Ss),Ns)
+    return make_natural_env(create_partial_envelope(sig, Fs, Ss), Ns)
 
 
 def find_Ns(Freq: float, Ss: int) -> int:
+    """Finds the Ns for Training Phase"""
     return Ss // Freq + 1
 
 
