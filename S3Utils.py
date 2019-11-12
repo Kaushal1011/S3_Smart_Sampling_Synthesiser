@@ -52,33 +52,33 @@ def get_note(freq: float) -> Tuple[float, str]:
             return note[1], '{} {}'.format(notes[y[1]], y[0] + 1)
 
 
-def create_partial_envelope(sig: np.ndarray) -> np.ndarray:
+def create_partial_envelope(sig: np.ndarray,Fs:int,Ss:int) -> np.ndarray:
     """
     Creates a partial envelope using min and max of in one cycle.
     """
 
     max_val = []
-    min_val = []
-    for i in range(0, len(sig), 44):
-        max_val.append(max(sig[i:i + 43]))
-        min_val.append(min(sig[i:i + 43]))
+    # min_val = []
+    for i in range(0, len(sig), 1+(Ss//Fs)):
+        max_val.append(max(sig[i:i + Ss//Fs]))
+        # min_val.append(min(sig[i:i + Ss//Fs]))
     return np.array(max_val)
 
 
-def make_natural_env(env: np.ndarray, Ss: int) -> np.ndarray:
+def make_natural_env(env: np.ndarray, Ns: int) -> np.ndarray:
     """
     Returns an envelope in natural time for the
     signal by upsampling and uniforming partial envelope
     """
-    divs = (Ss//len(env))
-    y = np.zeros(Ss).reshape(Ss, 1)
+    divs = (Ns//len(env))
+    y = np.zeros(Ns).reshape(Ns, 1)
     for i in range(len(env)-1):
         y[i*divs:divs*(i+1)] = np.linspace(env[i], env[i+1], num=divs)
     return y
 
-def create_env(sig:np.ndarray,Ss:int)->np.ndarray:
+def create_env(sig:np.ndarray,Fs:int,Ss:int,Ns:int)->np.ndarray:
     """return envelope of signal"""
-    return make_natural_env(create_partial_envelope(sig),Ss)
+    return make_natural_env(create_partial_envelope(sig,Fs,Ss),Ss)
 
 
 def find_Ns(Freq: float, Ss: int) -> int:
