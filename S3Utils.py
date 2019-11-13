@@ -2,7 +2,9 @@
 """Utils Functions for S3 Synthesiser App"""
 
 from typing import Tuple
+
 from scipy.interpolate import interp1d
+
 from dependency import np
 
 
@@ -32,6 +34,9 @@ def get_note(freq: float) -> Tuple[float, str]:
     Returns the Note (and its Natural Frequency)
     corresponding to input frequency
     """
+    if freq < 30.0:
+        raise ValueError(f'{freq} Hz too low')
+
     f = []
     FREQ = make_octaves()
     for i in FREQ:
@@ -50,6 +55,8 @@ def get_note(freq: float) -> Tuple[float, str]:
                 return note[0], '{} {}'.format(notes[y[1] - 1], y[0] + 1)
 
             return note[1], '{} {}'.format(notes[y[1]], y[0] + 1)
+    else:
+        raise ValueError(f'{freq} Hz too high')
 
 
 def create_partial_envelope(sig: np.ndarray, Fs: int, Ss: int) -> np.ndarray:
@@ -59,8 +66,8 @@ def create_partial_envelope(sig: np.ndarray, Fs: int, Ss: int) -> np.ndarray:
 
     max_val = []
     # min_val = []
-    for i in range(0, len(sig), 1+(Ss//Fs)):
-        max_val.append(max(sig[i:i + Ss//Fs]))
+    for i in range(0, len(sig), 1 + (Ss // Fs)):
+        max_val.append(max(sig[i:i + Ss // Fs]))
         # min_val.append(min(sig[i:i + Ss//Fs]))
     return np.array(max_val)
 
@@ -70,10 +77,10 @@ def make_natural_env(env: np.ndarray, Ns: int) -> np.ndarray:
     Returns an envelope in natural time for the
     signal by upsampling and uniforming partial envelope
     """
-    divs = (Ns//len(env))
+    divs = (Ns // len(env))
     y = np.zeros(Ns).reshape(Ns, 1)
-    for i in range(len(env)-1):
-        y[i*divs:divs*(i+1)] = np.linspace(env[i], env[i+1], num=divs)
+    for i in range(len(env) - 1):
+        y[i * divs:divs * (i + 1)] = np.linspace(env[i], env[i + 1], num=divs)
     return y
 
 
@@ -88,4 +95,4 @@ def find_Ns(Freq: float, Ss: int) -> int:
 
 
 if __name__ == '__main__':
-    print(get_note(438))
+    print(get_note(235))
