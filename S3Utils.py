@@ -8,13 +8,13 @@ from scipy.interpolate import interp1d
 from dependency import np
 
 
-def freq_calc(sig: np.ndarray) -> float:
+def freq_calc(sig: np.ndarray,Ss:int) -> float:
     """Calculates the average frequency of the input signal (of a recorded note)"""
     rep = 0
-    for i in range(len(sig) - 1):
+    for i in range(int(len(sig)/3),int(2*len(sig)/3)):
         if sig[i + 1] >= 0 and sig[i] <= 0:
             rep += 1
-    return len(sig) / rep
+    return Ss/(len(sig) / (3*rep))
 
 
 def make_octaves() -> np.ndarray:
@@ -78,7 +78,7 @@ def make_natural_env(env: np.ndarray, Ns: int) -> np.ndarray:
     signal by upsampling and uniforming partial envelope
     """
     divs = (Ns // len(env))
-    y = np.zeros(Ns).reshape(Ns, 1)
+    y = np.zeros(Ns)
     for i in range(len(env) - 1):
         y[i * divs:divs * (i + 1)] = np.linspace(env[i], env[i + 1], num=divs)
     return y

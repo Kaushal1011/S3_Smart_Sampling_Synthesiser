@@ -58,17 +58,26 @@ class S3Synth:
     def enveloped_keyframe(self, env: Envelope):
         """creates enveloped signal dataframe"""
         self.env_sigs = pd.DataFrame()
+        reps=env.Ns//self.Ns
         for Name, Value in self.filtered_sigs.iteritems():
-            self.env_sigs[Name] = Value * env.env
+            self.env_sigs[Name]=np.tile(Value/max(Value),reps) * env.env[0:self.Ns*reps]
+        # for i in range(1,reps-1):
+        #     for Name, Value in self.filtered_sigs.iteritems():
+        #         self.env_sigs[Name].append(Value * env.env[i*self.Ns:(i+1)*self.Ns],ignore_index=True)
 
     def initialise_frames(self,
                           filter_type: str,
-                          env: Envelope,
                           Cfs: int,
                           Cfs1=None):
         """intialises all data frames from base frame: run when filter parameters are changed"""
         self.filter_keyframe(filter_type, Cfs, Cfs1)
-        # self.enveloped_keyframe(env)
+        
+    def changed_filter(self,filter_type:str,env:Envelope,Cfs:int,Cfs1=None):
+        self.initialise_frames(filter_type,Cfs,Cfs1)
+        self.enveloped_keyframe(env)
+    
+    def changed_env(self,env:Envelope):
+        self.enveloped_keyframe(env)
 
     # def initilise_env(self, env: Envelope):
     #     """intialises envelope frame from filtered key frame: run when envelope parameters are changed """
