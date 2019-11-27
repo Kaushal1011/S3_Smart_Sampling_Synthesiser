@@ -11,7 +11,10 @@ class Envelope:
     def __init__(self, sig: np.ndarray, Fs: int, Ns: int, Ss: int):
         self.init_env = create_env(sig, Fs, Ss, Ns)
         self.env = self.init_env
+        self.Ns=Ns
 
+    def create_env_s3(self, initalenv: np.ndarray, Ns: int):
+        self.env=initalenv
 
 class S3Synth:
     """Main Synth Class that manages backend of Synthesiser"""
@@ -28,6 +31,8 @@ class S3Synth:
             for j in range(12):
                 self.note_sigs[str(i) + str(j + 1)] = predict_fs(
                     note_array[i][j], Ns, Ss, reg)
+        self.filtered_sigs=self.note_sigs
+        # self.env_sigs=self.note_sigs
 
     def filter_keyframe(self,
                         filter_type: str,
@@ -63,8 +68,8 @@ class S3Synth:
                           Cfs1=None):
         """intialises all data frames from base frame: run when filter parameters are changed"""
         self.filter_keyframe(filter_type, Cfs, Cfs1)
-        self.enveloped_keyframe(env)
+        # self.enveloped_keyframe(env)
 
-    def initilise_env(self, env: Envelope):
-        """intialises envelope frame from filtered key frame: run when envelope parameters are changed """
-        self.enveloped_keyframe(env)
+    # def initilise_env(self, env: Envelope):
+    #     """intialises envelope frame from filtered key frame: run when envelope parameters are changed """
+    #     self.enveloped_keyframe(env)

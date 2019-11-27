@@ -91,7 +91,19 @@ def create_env(sig: np.ndarray, Fs: int, Ss: int, Ns: int) -> np.ndarray:
 
 def find_Ns(Freq: float, Ss: int) -> int:
     """Finds the Ns for Training Phase"""
-    return Ss // Freq + 1
+    return 4*((Ss // Freq) + 1)
+
+def find_maxsig(sig: np.ndarray,Ns:int)->np.ndarray:
+    """returns part of signal where its in constant sustain"""
+    min1=10e9
+    sig_ret=np.array(sig[0:Ns])
+    for i in range(1,len(sig)//Ns):
+#         print(i)
+        if (32768-np.max(sig[i*Ns:(i+1)*Ns]))<min1:
+            min1=(32768-np.max(sig[i*Ns:(i+1)*Ns]))
+            sig_ret=sig[i*Ns:(i+1)*Ns]
+
+    return sig_ret
 
 
 if __name__ == '__main__':
