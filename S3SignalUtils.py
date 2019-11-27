@@ -49,8 +49,7 @@ def filt_lp(sig: np.ndarray, Ss: int, Cfs: int, Cfs1: None,
     nyq = 0.5 * Ss
     normal_cutoff = Cfs / nyq
     b, a = butter(order, normal_cutoff, btype='low', analog=False)
-    y = lfilter(b, a, sig)
-    return y
+    return lfilter(b, a, sig)
 
 
 def filt_hp(sig: np.ndarray, Ss: int, Cfs: int, Cfs1: None,
@@ -59,8 +58,7 @@ def filt_hp(sig: np.ndarray, Ss: int, Cfs: int, Cfs1: None,
     nyq = 0.5 * Ss
     normal_cutoff = Cfs / nyq
     b, a = butter(order, normal_cutoff, btype='high', analog=False)
-    y = lfilter(b, a, sig)
-    return y
+    return lfilter(b, a, sig)
 
 
 def filt_bp(sig: np.ndarray, Ss: int, Cfs0: int, Cfs1: None,
@@ -72,8 +70,7 @@ def filt_bp(sig: np.ndarray, Ss: int, Cfs0: int, Cfs1: None,
     b, a = butter(order, (normal_cutoff1, normal_cutoff2),
                   btype='band',
                   analog=False)
-    y = lfilter(b, a, sig)
-    return y
+    return lfilter(b, a, sig)
 
 
 if __name__ == '__main__':

@@ -2,6 +2,7 @@
 """Function related to playing audio on key press using S3Synth Instance"""
 
 import sounddevice as sd
+
 from dependency import np
 
 

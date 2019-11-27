@@ -54,7 +54,7 @@ class S3Synth:
         """creates enveloped signal dataframe"""
         self.env_sigs = pd.DataFrame()
         for Name, Value in self.filtered_sigs.iteritems():
-            self.env_sigs[Name] = Value*env.env
+            self.env_sigs[Name] = Value * env.env
 
     def initialise_frames(self,
                           filter_type: str,
