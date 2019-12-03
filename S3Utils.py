@@ -8,13 +8,13 @@ from scipy.interpolate import interp1d
 from dependency import np
 
 
-def freq_calc(sig: np.ndarray,Ss:int) -> float:
+def freq_calc(sig: np.ndarray, Ss: int) -> float:
     """Calculates the average frequency of the input signal (of a recorded note)"""
     rep = 0
-    for i in range(int(len(sig)/3),int(2*len(sig)/3)):
+    for i in range(int(len(sig) / 3), int(2 * len(sig) / 3)):
         if sig[i + 1] >= 0 and sig[i] <= 0:
             rep += 1
-    return Ss/(len(sig) / (3*rep))
+    return Ss / (len(sig) / (3 * rep))
 
 
 def make_octaves() -> np.ndarray:
@@ -91,17 +91,18 @@ def create_env(sig: np.ndarray, Fs: int, Ss: int, Ns: int) -> np.ndarray:
 
 def find_Ns(Freq: float, Ss: int) -> int:
     """Finds the Ns for Training Phase"""
-    return 4*((Ss // Freq) + 1)
+    return 4 * ((Ss // Freq) + 1)
 
-def find_maxsig(sig: np.ndarray,Ns:int)->np.ndarray:
+
+def find_maxsig(sig: np.ndarray, Ns: int) -> np.ndarray:
     """returns part of signal where its in constant sustain"""
-    min1=10e9
-    sig_ret=np.array(sig[0:Ns])
-    for i in range(1,len(sig)//Ns):
-#         print(i)
-        if (32768-np.max(sig[i*Ns:(i+1)*Ns]))<min1:
-            min1=(32768-np.max(sig[i*Ns:(i+1)*Ns]))
-            sig_ret=sig[i*Ns:(i+1)*Ns]
+    min1 = 10e9
+    sig_ret = np.array(sig[0:Ns])
+    for i in range(1, len(sig) // Ns):
+        # print(i)
+        if (32768 - np.max(sig[i * Ns:(i + 1) * Ns])) < min1:
+            min1 = (32768 - np.max(sig[i * Ns:(i + 1) * Ns]))
+            sig_ret = sig[i * Ns:(i + 1) * Ns]
 
     return sig_ret
 

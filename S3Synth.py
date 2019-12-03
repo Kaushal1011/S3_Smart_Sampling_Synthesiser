@@ -11,10 +11,11 @@ class Envelope:
     def __init__(self, sig: np.ndarray, Fs: int, Ns: int, Ss: int):
         self.init_env = create_env(sig, Fs, Ss, Ns)
         self.env = self.init_env
-        self.Ns=Ns
+        self.Ns = Ns
 
     def create_env_s3(self, initalenv: np.ndarray, Ns: int):
-        self.env=initalenv
+        self.env = initalenv
+
 
 class S3Synth:
     """Main Synth Class that manages backend of Synthesiser"""
@@ -31,7 +32,7 @@ class S3Synth:
             for j in range(12):
                 self.note_sigs[str(i) + str(j + 1)] = predict_fs(
                     note_array[i][j], Ns, Ss, reg)
-        self.filtered_sigs=self.note_sigs
+        self.filtered_sigs = self.note_sigs
         # self.env_sigs=self.note_sigs
 
     def filter_keyframe(self,
@@ -58,25 +59,27 @@ class S3Synth:
     def enveloped_keyframe(self, env: Envelope):
         """creates enveloped signal dataframe"""
         self.env_sigs = pd.DataFrame()
-        reps=env.Ns//self.Ns
+        reps = env.Ns // self.Ns
         for Name, Value in self.filtered_sigs.iteritems():
-            self.env_sigs[Name]=np.tile(Value/max(Value),reps) * env.env[0:self.Ns*reps]
+            self.env_sigs[Name] = np.tile(Value / max(Value),
+                                          reps) * env.env[0:self.Ns * reps]
         # for i in range(1,reps-1):
         #     for Name, Value in self.filtered_sigs.iteritems():
         #         self.env_sigs[Name].append(Value * env.env[i*self.Ns:(i+1)*self.Ns],ignore_index=True)
 
-    def initialise_frames(self,
-                          filter_type: str,
-                          Cfs: int,
-                          Cfs1=None):
+    def initialise_frames(self, filter_type: str, Cfs: int, Cfs1=None):
         """intialises all data frames from base frame: run when filter parameters are changed"""
         self.filter_keyframe(filter_type, Cfs, Cfs1)
-        
-    def changed_filter(self,filter_type:str,env:Envelope,Cfs:int,Cfs1=None):
-        self.initialise_frames(filter_type,Cfs,Cfs1)
+
+    def changed_filter(self,
+                       filter_type: str,
+                       env: Envelope,
+                       Cfs: int,
+                       Cfs1=None):
+        self.initialise_frames(filter_type, Cfs, Cfs1)
         self.enveloped_keyframe(env)
-    
-    def changed_env(self,env:Envelope):
+
+    def changed_env(self, env: Envelope):
         self.enveloped_keyframe(env)
 
     # def initilise_env(self, env: Envelope):
