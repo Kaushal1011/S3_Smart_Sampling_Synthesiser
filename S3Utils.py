@@ -44,8 +44,7 @@ def get_note(freq: float) -> Tuple[float, str]:
     Returns the Note (and its Natural Frequency)
     corresponding to input frequency
     """
-    if freq < 30.0:
-        raise ValueError(f'{freq} Hz too low')
+
 
     f = []
     FREQ = make_octaves()
@@ -66,10 +65,10 @@ def get_note(freq: float) -> Tuple[float, str]:
 
             return note[1], '{} {}'.format(notes[y[1]], y[0] + 1)
     else:
-        raise ValueError(f'{freq} Hz too high')
+        return freq,None
 
 
-def create_partial_envelope(sig: np.ndarray, Fs: int, Ss: int) -> np.ndarray:
+def create_partial_envelope(sig: np.ndarray, Fs: float, Ss: int) -> np.ndarray:
     """
     Creates a partial envelope using min and max of in one cycle.
     """
@@ -94,7 +93,7 @@ def make_natural_env(env: np.ndarray, Ns: int) -> np.ndarray:
     return y
 
 
-def create_env(sig: np.ndarray, Fs: int, Ss: int, Ns: int) -> np.ndarray:
+def create_env(sig: np.ndarray, Fs: float, Ss: int, Ns: int) -> np.ndarray:
     """return envelope of signal"""
     return make_natural_env(create_partial_envelope(sig, Fs, Ss), Ns)
 

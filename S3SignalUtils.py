@@ -14,26 +14,26 @@ def sigin(wavname: str) -> Tuple[int, np.ndarray]:
     return wavutils.read(wavname, mmap=False)
 
 
-def sawtooth(fs: int, Ns: int, Ss: int) -> np.ndarray:
+def sawtooth(fs: float, Ns: int, Ss: int) -> np.ndarray:
     """Returns a Sawtooth wave of Sample rate Ss with Ns number of samples and Sample Frequency Fs"""
     Ss = np.linspace(0, 1, Ss)
     return sig.sawtooth(2 * np.pi * fs * Ss)[0:Ns]
 
 
-def triangle(fs: int, Ns: int, Ss: int) -> np.ndarray:
+def triangle(fs: float, Ns: int, Ss: int) -> np.ndarray:
     """Returns a Triangle wave of Sample rate Ss with Ns number of samples and Sample Frequency Fs"""
     Ss = np.linspace(0, 1, Ss)
     return sig.sawtooth(2 * np.pi * fs * Ss, 0.5)[0:Ns]
 
 
-def sin(fs: int, Ns: int, Ss: int) -> np.ndarray:
+def sin(fs: float, Ns: int, Ss: int) -> np.ndarray:
     """Returns a Sine wave of Sample rate Ss with Ns number of samples and Sample Frequency Fs"""
     t = np.arange(Ns)
     omega = 2 * np.pi * fs / Ss
     return np.sin(omega * t)
 
 
-def cos(fs: int, Ns: int, Ss: int) -> np.ndarray:
+def cos(fs: float, Ns: int, Ss: int) -> np.ndarray:
     """Returns a Cosine wave of Sample rate Ss with Ns number of samples and Sample Frequency Fs"""
     t = np.arange(Ns)
     omega = 2 * np.pi * fs / Ss
