@@ -16,13 +16,13 @@ def create_FunctionFrame(fs: int, Ns: int, Ss: int) -> pd.DataFrame:
     Functions = {
         "sin": sin,
         "cos": cos,
-        "triangle": triangle,
-        "sawtooth": sawtooth
+        # "triangle": triangle,
+        # "sawtooth": sawtooth
     }
 
     # Iterated on dictionary items
     for i in Functions.items():
-        for j in range(1, 11):
+        for j in range(1, 21):
             FuncFrame[i[0] + str(j)] = i[1](j * fs, Ns, Ss)
 
     # Add 1 Column filled with noise to FuncFane without forgetting
