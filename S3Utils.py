@@ -179,7 +179,7 @@ def freq_from_HPS(sig, fs):
     """
     windowed = sig * signal.blackmanharris(len(sig))
 
-    from pylab import subplot, plot, log, copy, show
+    from matplotlib.pylab import subplot, plot, log, copy, show
 
     # harmonic product spectrum:
     c = abs(rfft(windowed))
