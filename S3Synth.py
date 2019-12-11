@@ -36,6 +36,9 @@ class S3Synth:
         # self.osc1.ctrl(title="Osc1")
 
         self.osc2 = Osc(table=self.t2,freq=self.pit,phase=0.25 , mul=self.amp)
+        self.osc22= Osc(table=self.t2,freq=self.pit+np.pi/2 , mul=self.amp)
+        self.osccos=Selector([self.osc2,self.osc22],voice=0)
+        self.osccos.ctrl(title="shift modulation amount")
         # self.osc2.ctrl()
         # Stereo mix.
         self.osc3 = LFO(self.pit, sharp=0.5, type=2, mul=self.amp)
@@ -48,7 +51,7 @@ class S3Synth:
 
 
         self.extrasel=Selector([self.osc3.mix(1),self.osc4.mix(1)],mul=0,voice=0.5)
-        self.mainsel=Selector([self.osc1.mix(1),self.osc2.mix(1)],mul=1,voice=0.5)
+        self.mainsel=Selector([self.osc1.mix(1),self.osccos.mix(1)],mul=1,voice=0.5)
         self.mainsel.ctrl(title="Main Oscillator Volume")
         self.extrasel.ctrl(title="Extra Oscillator Volume Ctrl")
         # self.extra=Mix(self.osc3.mix(1),self.osc4.mix(1),voices=2)
@@ -70,10 +73,14 @@ class S3Synth:
         self.eq.ctrl(title="Equaliser type 0=lp 1=hp 2=bp 3=br 4=ap")
         self.spec=Spectrum(self.eq,size=512,wintitle='Spectrum')
         self.harmonized=Harmonizer(self.eq,mul=0)
-        self.harmonized.ctrl()
+        self.harmonized.ctrl(title="Harmonizer 1")
+        self.harmonized1=Harmonizer(self.eq,mul=0)
+        self.harmonized1.ctrl(title="Harmonizer 2")
+        self.harmonized2=Harmonizer(self.eq,mul=0)
+        self.harmonized2.ctrl(title="Harmonizer 3")
         self.distortion=Disto(self.eq,drive=0)
         self.distortion.ctrl()
-        self.pfx=Mix([self.distortion,self.harmonized],voices=1)
+        self.pfx=Mix([self.distortion,self.harmonized,self.harmonized1,self.harmonized2],voices=1)
 
 
         self.chor=Chorus(self.pfx,bal=0)
