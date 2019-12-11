@@ -38,13 +38,16 @@ def train_S3(FuncFrame: pd.DataFrame, sig: np.ndarray) -> LinearRegression:
         LinearRegression
     """
 
-    reg = LinearRegression()
-    reg.fit(FuncFrame, sig)
-    return reg
+    return LinearRegression().fit(FuncFrame, sig)
 
 
 def predict_fs(fs: int, Ns: int, Ss: int, reg: LinearRegression) -> np.ndarray:
-    """Returns predicted signal of given frequency"""
+    """
+    Returns predicted signal of given frequency
+    Ss is sample rate
+    Fs is natural frequency
+    Ns is number of samples
+    """
+
     FuncFrame = create_FunctionFrame(fs, Ns, Ss)
-    pred_sig = reg.predict(FuncFrame)
-    return pred_sig
+    return reg.predict(FuncFrame)

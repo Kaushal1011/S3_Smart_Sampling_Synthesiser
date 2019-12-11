@@ -21,7 +21,7 @@ class S3App:
 
     def load_trainedsynth(self):
         """Loads all properties of S3 trains S3 and initialises S3Synth"""
-        
+
         freq = freq_calc(self.wave, self.Ss)
         self.Ss = int(self.Ss)
         self.freq, self.note = get_note(freq)
@@ -29,27 +29,17 @@ class S3App:
         self.Fs = int(freq)
         print(freq, self.Ns, self.Ss, self.note)
         self.wave_sampled = find_maxsig(self.wave, self.Ns)
-        
+
         print(self.env.Ns)
         func_frame = create_FunctionFrame(self.Fs, self.Ns, self.Ss)
         self.reg = train_S3(func_frame, self.wave_sampled)
         print(self.reg.score(func_frame, self.wave_sampled))
-        
-
-    
 
 
 def main():
     kaypee = S3App()
     kaypee.load_file('flute1.wav')
     kaypee.load_trainedsynth()
-
-    # play_note(kaypee.s3.env_sigs['51'], kaypee.Ss)
-    # # play_note(kaypee.wave,kaypee.Ss)
-    # write('violin2.wav', kaypee.Ss, kaypee.s3.env_sigs['51'])
-    # print(kaypee.s3.env_sigs['51'].shape)
-    # plt.plot(kaypee.s3.env_sigs['51'][10000:10100])
-    # plt.show()
 
 
 if __name__ == '__main__':

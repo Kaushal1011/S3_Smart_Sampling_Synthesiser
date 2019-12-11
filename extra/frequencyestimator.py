@@ -22,7 +22,7 @@ def freq_from_crossings(sig, fs):
 
     # More accurate, using linear interpolation to find intersample
     # zero-crossings (Measures 1000.000129 Hz for 1000 Hz, for instance)
-    crossings = [i - sig[i] / (sig[i+1] - sig[i]) for i in indices]
+    crossings = [i - sig[i] / (sig[i + 1] - sig[i]) for i in indices]
 
     # Some other interpolation based on neighboring points might be better.
     # Spline, cubic, whatever
@@ -52,7 +52,7 @@ def freq_from_autocorr(sig, fs):
     """
     # Calculate autocorrelation and throw away the negative lags
     corr = correlate(sig, sig, mode='full')
-    corr = corr[len(corr)//2:]
+    corr = corr[len(corr) // 2:]
 
     # Find the first low point
     d = diff(corr)
