@@ -26,9 +26,9 @@ class S3Synth:
         # Anti-aliased stereo square waves, mixed from 10 streams to 1 stream
         # to avoid channel alternation on new notes.
 
-        self.t=HarmTable(list(wavecoef_[0:20]))
+        self.t=HarmTable(list(wavecoef_[0:40]))
 #         self.t.graph()
-        self.t2=HarmTable(list(wavecoef_[20:39]))
+        self.t2=HarmTable(list(wavecoef_[40:79]))
 #         self.t2.graph()
         self.osc1 = Osc(table=self.t,freq=self.pit, mul=self.amp)
 
@@ -43,7 +43,7 @@ class S3Synth:
 
 
         self.osc4 = LFO(self.pit, sharp=0.5, type=2, mul=self.amp)
-        self.osc4.ctrl(title="Osc3 type 0=saw u 1=saw d 2=sq 3=tri 4=pulse 5=bipulse 6=s&h 7=Sine")
+        self.osc4.ctrl(title="Osc4 type 0=saw u 1=saw d 2=sq 3=tri 4=pulse 5=bipulse 6=s&h 7=Sine")
 
 
 
@@ -62,7 +62,7 @@ class S3Synth:
         # Moving notches, using two out-of-phase sine wave oscillators.
         self.lfo = Sine(.2, phase=[random(), random()]).range(250, 4000)
         self.lfo.ctrl(title=" Modulation")
-        self.notch = ButBR(self.damp, self.lfo, mul=mul)
+        self.notch = ButBR(self.damp, self.lfo, mul=mul).mix(1)
 
         self.scope=Scope(self.notch)
 
@@ -73,13 +73,13 @@ class S3Synth:
         self.harmonized.ctrl()
         self.distortion=Disto(self.eq,drive=0)
         self.distortion.ctrl()
-        self.pfx=Mix([self.distortion,self.harmonized],voices=2)
+        self.pfx=Mix([self.distortion,self.harmonized],voices=1)
 
 
-        self.chor=Chorus(self.pfx)
+        self.chor=Chorus(self.pfx,bal=0)
         self.chor.ctrl()
 
-        self.rev=STRev(self.pfx)
+        self.rev=STRev(self.pfx,bal=0)
         self.rev.ctrl()
 
         self.sel=Selector([self.rev,self.chor],0.5)

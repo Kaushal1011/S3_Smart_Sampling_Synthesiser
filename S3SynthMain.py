@@ -57,7 +57,7 @@ class S3App:
 
 def main():
     kaypee = S3App()
-    kaypee.load_file('Samples/AcousticGuitar.wav')
+    kaypee.load_file('Samples/PianoDiff.wav')
     kaypee.load_trainedsynth()
     s = Server()
     s.setMidiInputDevice(99) # Open all input devices.
