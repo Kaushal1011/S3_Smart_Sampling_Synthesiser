@@ -38,12 +38,12 @@ class S3App:
         print("freq ",freq3,"freqfft ",freq3,"freqautocorr ",freq2,"freqhps ",freq1,"freqcross ",freq4)
         self.Ss = int(self.Ss)
         print("Enter Frequency")
-        fs=int(input())
+        fs=float(input())
         self.freq, self.note = get_note(fs)
         self.Ns = int(find_Ns(self.freq, self.Ss))
-        self.Fs = int(fs)
+        self.Fs = float(fs)
         print(freq, self.Ns, self.Ss, self.note)
-        self.waves = self.waves
+        self.waves = self.waves/max(self.waves)
 
         # print(self.env.Ns)
         func_frame = create_FunctionFrame(self.Fs, len(self.waves), self.Ss)
@@ -57,7 +57,7 @@ class S3App:
 
 def main():
     kaypee = S3App()
-    kaypee.load_file('Samples/ElectricGuitar.wav')
+    kaypee.load_file('Samples/PianoDiff.wav')
     kaypee.load_trainedsynth()
     s = Server()
     s.setMidiInputDevice(99) # Open all input devices.
