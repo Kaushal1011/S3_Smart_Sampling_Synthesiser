@@ -28,8 +28,8 @@ class S3Synth:
         # to avoid channel alternation on new notes.
 
         # Create harmonic table of two parts
-        self.t = HarmTable(list(wavecoef_[0:40]))
-        self.t2 = HarmTable(list(wavecoef_[40:]))
+        self.t = HarmTable(list(wavecoef_[0:80]))
+        self.t2 = HarmTable(list(wavecoef_[80:159]))
 
         # Create Oscilattor
         self.osc1 = Osc(table=self.t, freq=self.pit, mul=self.amp)
@@ -37,6 +37,8 @@ class S3Synth:
         self.osc22 = Osc(table=self.t2,
                          freq=self.pit + np.pi / 2,
                          mul=self.amp)
+        # self.scope1=Scope(Mix([-1*self.osc1,-1*self.osc2]))
+        # self.scope1.g
 
         # Selector takes multiple inputs and interpolates
         # between them to generate a single output.
@@ -75,12 +77,12 @@ class S3Synth:
         self.lfo.ctrl(title=" Modulation")
         self.notch = ButBR(self.damp, self.lfo, mul=mul).mix(1)
 
-        self.scope = Scope(self.notch)
+
 
         self.eq = Biquad(self.notch, freq=20000)
         self.eq.ctrl(title="Equaliser type 0=lp 1=hp 2=bp 3=br 4=ap")
 
-        self.spec = Spectrum(self.eq, size=512, wintitle='Spectrum')
+
 
         self.harmonized = Harmonizer(self.eq,
                                      mul=0.1,
@@ -120,6 +122,8 @@ class S3Synth:
         self.sel = Selector([self.rev, self.chor], 0.5)
         self.sel.ctrl(title="Chorus vs Reverb")
         self.final = Mix(self.sel, voices=2, mul=1)
+        self.spec = Spectrum(self.final, size=512, wintitle='Spectrum')
+        self.scope = Scope(self.final)
 
     def out(self):
         '''Sends the synth's signal to the audio output and return the object itself.'''
