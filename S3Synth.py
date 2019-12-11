@@ -37,7 +37,7 @@ class S3Synth:
 
         self.osc2 = Osc(table=self.t2,freq=self.pit,phase=0.25 , mul=self.amp)
         self.osc22= Osc(table=self.t2,freq=self.pit+np.pi/2 , mul=self.amp)
-        self.osccos=Selector([self.osc2,self.osc22],voice=0)
+        self.osccos=Selector([self.osc2,self.osc22],voice=0.15)
         self.osccos.ctrl(title="shift modulation amount")
         # self.osc2.ctrl()
         # Stereo mix.
@@ -45,12 +45,12 @@ class S3Synth:
         self.osc3.ctrl(title="Osc3 type 0=saw u 1=saw d 2=sq 3=tri 4=pulse 5=bipulse 6=s&h 7=Sine")
 
 
-        self.osc4 = LFO(self.pit, sharp=0.5, type=2, mul=self.amp)
+        self.osc4 = LFO(self.pit, sharp=0.5, type=0, mul=self.amp)
         self.osc4.ctrl(title="Osc4 type 0=saw u 1=saw d 2=sq 3=tri 4=pulse 5=bipulse 6=s&h 7=Sine")
 
 
 
-        self.extrasel=Selector([self.osc3.mix(1),self.osc4.mix(1)],mul=0,voice=0.5)
+        self.extrasel=Selector([self.osc3.mix(1),self.osc4.mix(1)],mul=0.05,voice=0.5)
         self.mainsel=Selector([self.osc1.mix(1),self.osccos.mix(1)],mul=1,voice=0.5)
         self.mainsel.ctrl(title="Main Oscillator Volume")
         self.extrasel.ctrl(title="Extra Oscillator Volume Ctrl")
@@ -72,11 +72,11 @@ class S3Synth:
         self.eq=Biquad(self.notch,freq=20000)
         self.eq.ctrl(title="Equaliser type 0=lp 1=hp 2=bp 3=br 4=ap")
         self.spec=Spectrum(self.eq,size=512,wintitle='Spectrum')
-        self.harmonized=Harmonizer(self.eq,mul=0)
+        self.harmonized=Harmonizer(self.eq,mul=0.1,transpo=-12,feedback=0.25)
         self.harmonized.ctrl(title="Harmonizer 1")
-        self.harmonized1=Harmonizer(self.eq,mul=0)
+        self.harmonized1=Harmonizer(self.eq,mul=0.1,transpo=12,feedback=0.25)
         self.harmonized1.ctrl(title="Harmonizer 2")
-        self.harmonized2=Harmonizer(self.eq,mul=0)
+        self.harmonized2=Harmonizer(self.eq,mul=0,transpo=-6,feedback=0.25)
         self.harmonized2.ctrl(title="Harmonizer 3")
         self.distortion=Disto(self.eq,drive=0)
         self.distortion.ctrl()
