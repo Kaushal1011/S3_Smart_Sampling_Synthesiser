@@ -77,12 +77,8 @@ class S3Synth:
         self.lfo.ctrl(title=" Modulation")
         self.notch = ButBR(self.damp, self.lfo, mul=mul).mix(1)
 
-
-
         self.eq = Biquad(self.notch, freq=20000)
         self.eq.ctrl(title="Equaliser type 0=lp 1=hp 2=bp 3=br 4=ap")
-
-
 
         self.harmonized = Harmonizer(self.eq,
                                      mul=0.1,

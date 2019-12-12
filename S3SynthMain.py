@@ -20,7 +20,7 @@ class S3App:
         """Loads a Sample into the synthesiser"""
 
         self.Ss, self.wave = sp.io.wavfile.read(file_path, mmap=False)
-        if len(self.wave) == 2:
+        if len(self.wave.shape) == 2:
             self.wave = np.array(self.wave[:, 0])
         plt.plot(self.wave[:])
         plt.show()
@@ -28,8 +28,7 @@ class S3App:
         print("Enter indexes in which wave is sustained")
         a = input('Lower index: ')
         b = input('Upper index: ')
-        self.waves = self.wave[int(a):int(b)]/max(self.wave)
-
+        self.waves = self.wave[int(a):int(b)] / max(self.wave)
 
     def load_trainedsynth(self):
         """Loads all properties of S3 trains S3 and initialises S3Synth"""
