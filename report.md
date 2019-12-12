@@ -72,11 +72,13 @@ The program prints all the four frequencies and the user feeds the value which i
 1. Zero Crossings
 1. Harmonic Product Spectrum
 
----
+# User Interface
+![](Output.png)
 
+---
 ## Thank You
 
-- Prachee Javiya
-- Kaushal Patil
-- Dhruvil Dave
-- Dhir Oza
+- Prachee Javiya (AU1841032)
+- Kaushal Patil (AU1841040)
+- Dhruvil Dave (AU1841003)
+- Dhir Oza (AU1841108)
