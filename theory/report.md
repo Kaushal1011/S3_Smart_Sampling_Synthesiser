@@ -73,6 +73,9 @@ The program prints all the four frequencies and the user feeds the value which i
 1. Harmonic Product Spectrum
 
 # User Interface
+![](Innterface.png)
+
+# Output
 ![](Output.png)
 
 ---
