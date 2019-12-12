@@ -71,9 +71,3 @@ def filt_bp(sig: np.ndarray, Ss: int, Cfs0: int, Cfs1: None,
                   btype='band',
                   analog=False)
     return lfilter(b, a, sig)
-
-
-if __name__ == '__main__':
-    from dependency import plt
-    plt.plot(sin(100, 100, 100))
-    plt.show()
