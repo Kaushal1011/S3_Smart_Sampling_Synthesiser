@@ -1,27 +1,30 @@
 #!/usr/bin/env python3
 """Utils Functions for S3 Synthesiser App"""
-from __future__ import division
+
+import sys
+from time import time
 from typing import Tuple
 
+import soundfile as sf
+from numpy import argmax, diff, log, mean, nonzero
+from numpy.fft import rfft
+from scipy import signal
 from scipy.interpolate import interp1d
+from scipy.signal import correlate
 
 from dependency import np
-
-from numpy.fft import rfft
-from numpy import argmax, mean, diff, log, nonzero
-from scipy.signal import  correlate
-from scipy import signal
-from time import time
-import sys
-import soundfile as sf
-
 from parabolic import parabolic
+
+# Ss is sample rate
+# Fs is natural frequency
+# Ns is number of samples
 
 
 def freq_calc(sig: np.ndarray, Ss: int) -> float:
     """Calculates the average frequency of the input signal (of a recorded note)"""
+
     rep = 0
-    for i in range(len(sig)-1):
+    for i in range(len(sig) - 1):
         if sig[i + 1] >= 0 and sig[i] <= 0:
             rep += 1
     return Ss / (len(sig) / (3 * rep))
@@ -29,6 +32,7 @@ def freq_calc(sig: np.ndarray, Ss: int) -> float:
 
 def make_octaves() -> np.ndarray:
     """Creates Octaves with their corresponding frequency"""
+
     C4_octave = [261.62556530059874]  # Value of C4
     for _ in range(11):
         C4_octave.append(C4_octave[-1] * 2**(1 / 12))
@@ -44,7 +48,6 @@ def get_note(freq: float) -> Tuple[float, str]:
     Returns the Note (and its Natural Frequency)
     corresponding to input frequency
     """
-
 
     f = []
     FREQ = make_octaves()
@@ -65,7 +68,7 @@ def get_note(freq: float) -> Tuple[float, str]:
 
             return note[1], '{} {}'.format(notes[y[1]], y[0] + 1)
     else:
-        return freq,None
+        return freq, None
 
 
 def create_partial_envelope(sig: np.ndarray, Fs: float, Ss: int) -> np.ndarray:
@@ -73,12 +76,8 @@ def create_partial_envelope(sig: np.ndarray, Fs: float, Ss: int) -> np.ndarray:
     Creates a partial envelope using min and max of in one cycle.
     """
 
-    max_val = []
-    # min_val = []
-    for i in range(0, len(sig), 1 + (Ss // Fs)):
-        max_val.append(max(sig[i:i + Ss // Fs]))
-        # min_val.append(min(sig[i:i + Ss//Fs]))
-    return np.array(max_val)
+    return np.array(
+        [max(sig[i:i + Ss // Fs]) for i in range(0, len(sig), 1 + (Ss // Fs))])
 
 
 def make_natural_env(env: np.ndarray, Ns: int) -> np.ndarray:
@@ -115,6 +114,7 @@ def find_maxsig(sig: np.ndarray, Ns: int) -> np.ndarray:
 
     return sig_ret
 
+
 def freq_from_crossings(sig, fs):
     """
     Estimate frequency by counting zero crossings
@@ -127,7 +127,7 @@ def freq_from_crossings(sig, fs):
 
     # More accurate, using linear interpolation to find intersample
     # zero-crossings (Measures 1000.000129 Hz for 1000 Hz, for instance)
-    crossings = [i - sig[i] / (sig[i+1] - sig[i]) for i in indices]
+    crossings = [i - sig[i] / (sig[i + 1] - sig[i]) for i in indices]
 
     # Some other interpolation based on neighboring points might be better.
     # Spline, cubic, whatever
@@ -157,7 +157,7 @@ def freq_from_autocorr(sig, fs):
     """
     # Calculate autocorrelation and throw away the negative lags
     corr = correlate(sig, sig, mode='full')
-    corr = corr[len(corr)//2:]
+    corr = corr[len(corr) // 2:]
 
     # Find the first low point
     d = diff(corr)
@@ -177,31 +177,20 @@ def freq_from_HPS(sig, fs):
     """
     Estimate frequency using harmonic product spectrum (HPS)
     """
+
     windowed = sig * signal.blackmanharris(len(sig))
 
     from matplotlib.pylab import subplot, plot, log, copy, show
 
-    # harmonic product spectrum:
     c = abs(rfft(windowed))
     maxharms = 4
-    # subplot(maxharms, 1, 1)
-    # plot(log(c))
     for x in range(2, maxharms):
         a = copy(c[::x])  # Should average or maximum instead of decimating
-        # max(c[::x],c[1::x],c[2::x],...)
+
         c = c[:len(a)]
         i = argmax(abs(c))
         true_i = parabolic(abs(c), i)[0]
         print('Pass %d: %f Hz' % (x, fs * true_i / len(windowed)))
         c *= a
-        # subplot(maxharms, 1, x)
-        # plot(log(c))
-    # show()
+
     return fs * true_i / len(windowed)
-
-
-
-
-
-if __name__ == '__main__':
-    print(get_note(235))

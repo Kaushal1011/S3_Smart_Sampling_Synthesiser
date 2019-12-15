@@ -1,5 +1,6 @@
-from __future__ import division
-from numpy import polyfit, arange
+#!/usr/bin/env python3
+
+from numpy import arange, polyfit
 
 
 def parabolic(f, x):
@@ -15,8 +16,8 @@ def parabolic(f, x):
     In [4]: parabolic(f, argmax(f))
     Out[4]: (3.2142857142857144, 6.1607142857142856)
     """
-    xv = 1/2. * (f[x-1] - f[x+1]) / (f[x-1] - 2 * f[x] + f[x+1]) + x
-    yv = f[x] - 1/4. * (f[x-1] - f[x+1]) * (xv - x)
+    xv = 1 / 2. * (f[x - 1] - f[x + 1]) / (f[x - 1] - 2 * f[x] + f[x + 1]) + x
+    yv = f[x] - 1 / 4. * (f[x - 1] - f[x + 1]) * (xv - x)
     return (xv, yv)
 
 
@@ -25,8 +26,9 @@ def parabolic_polyfit(f, x, n):
     f is a vector and x is an index for that vector.
     n is the number of samples of the curve used to fit the parabola.
     """
-    a, b, c = polyfit(arange(x-n//2, x+n//2+1), f[x-n//2:x+n//2+1], 2)
-    xv = -0.5 * b/a
+    a, b, c = polyfit(arange(x - n // 2, x + n // 2 + 1),
+                      f[x - n // 2:x + n // 2 + 1], 2)
+    xv = -0.5 * b / a
     yv = a * xv**2 + b * xv + c
     return (xv, yv)
 
