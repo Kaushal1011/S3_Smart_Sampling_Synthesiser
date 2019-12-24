@@ -2,7 +2,7 @@
 
 import matplotlib.pyplot as plt
 from pyo import Server
-
+from mido import MidiFile
 from dependency import np, pd, sp
 from S3DataUtils import create_FunctionFrame, train_S3
 from S3Synth import S3Synth
@@ -60,6 +60,7 @@ class S3App:
         print(self.reg.score(func_frame, self.waves))
 
 
+
 def main():
     '''Driver code'''
 
@@ -69,6 +70,16 @@ def main():
     s = Server()
     s.setMidiInputDevice(99)  # Open all input devices.
     s.boot()
+    def play_midi(filename:str):
+        mid = MidiFile(filename)
+
+    # ... and reading its content.
+        for message in mid.play():
+            # For each message, we convert it to integer data with the bytes()
+            # method and send the values to pyo's Server with the addMidiEvent()
+            # method. This method programmatically adds a MIDI message to the
+            # server's internal MIDI event buffer.
+            s.addMidiEvent(*message.bytes())
 
     Synthesiser = S3Synth(app.reg.coef_)
     a = Synthesiser.out()
