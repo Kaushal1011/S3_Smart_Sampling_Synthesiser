@@ -7,10 +7,10 @@ In Future JUCE C++ or Rust looks a good option
 
 ## Collaborators
 
-- [Kaushal Patil AU1841040](https://github.com/Kaushal1011)
-- [Dhruvil Dave AU1841003](https://github.com/dhruvildave)
-- [Prachee Javiya AU1841032](https://github.com/PracheeJaviya)
-- Dhir Oza
+- [Kaushal Patil ](https://github.com/Kaushal1011)
+- [Dhruvil Dave ](https://github.com/dhruvildave)
+- [Prachee Javiya ](https://github.com/PracheeJaviya)
+
 
 To run the code
 
