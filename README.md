@@ -1,5 +1,10 @@
 # S3_Smart_Sampling_Synthesiser
 
+## Update
+
+I am facing some problems running this project after updating versions on certains modules and it will be soon be revamped. I still plan to use the base concept but I'll see. I will update here the github repo link when I revamp this.
+- []()
+
 Central Repository of the S3 (Hopefully a vst soon) Smart Sampling Synthesiser
 
 An additive synthesiser that generates wavetable from an input sample by using linear regression to find weights of harmonics. Currently being developed in Python (Pyo, PyQt5, wxpython).
