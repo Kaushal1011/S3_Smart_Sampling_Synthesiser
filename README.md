@@ -6,7 +6,7 @@ I am facing some problems running this project after updating versions on certai
 
 Join if you're interested in working on a sound synthesiser app based on the webaudio api!
 
-I am working towards the following:
+I am working towards the following on branch update_v2 (issue #20 #19):
 - Update the app and bring it on the web.
 - Port app to JS on webaudio api and newer gui interface.
 - Rethink the base additive synthesis algorithm to something more robust and fun to work with!
