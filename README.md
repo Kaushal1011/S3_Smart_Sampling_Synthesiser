@@ -2,8 +2,14 @@
 
 ## Update
 
-I am facing some problems running this project after updating versions on certains modules and it will be soon be revamped. I still plan to use the base concept but I'll see. I will update here the github repo link when I revamp this.
-- []()
+I am facing some problems running this project after updating versions on certains modules and it will be soon be revamped. I still plan to use the base concept but I'll see.
+
+Join if you're interested in working on a sound synthesiser app based on the webaudio api!
+
+I am working towards the following:
+- Update the app and bring it on the web.
+- Port app to JS on webaudio api and newer gui interface.
+- Rethink the base additive synthesis algorithm to something more robust and fun to work with!
 
 Central Repository of the S3 (Hopefully a vst soon) Smart Sampling Synthesiser
 
