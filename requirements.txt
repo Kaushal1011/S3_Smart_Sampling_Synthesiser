@@ -87,7 +87,7 @@ six==1.13.0
 SoundFile==0.10.3.post1
 statsmodels==0.10.1
 tensorboard==2.0.0
-tensorflow==2.4.0
+tensorflow==2.5.0
 tensorflow-estimator==2.0.0
 termcolor==1.1.0
 terminado==0.8.3
